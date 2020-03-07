@@ -15,8 +15,15 @@
 #'   class for all observations and cv_er a numeric with the
 #'   cross-validation misclassification error.
 #'
+#' @import class
+#' @import magrittr
+#' @import tibble
+#' @importFrom dplyr mutate
+#' @importFrom dplyr select
+#' @importFrom dplyr filter
+#' @importFrom dplyr contains
+#'
 #' @examples
-#' my_knn_cv(train, cl, knn = 1, k_cv = 5)
 #' # example that uses iris data
 #' my_knn_cv(iris[, -5], iris[, 5], 5, 5)
 #'

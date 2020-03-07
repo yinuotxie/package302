@@ -18,3 +18,7 @@ A table of summary with rows for each coefficient and columns for the
 \description{
 my_lm is used to fit linear models.
 }
+\examples{
+my_lm(mpg ~ hp + wt, mtcars)
+
+}

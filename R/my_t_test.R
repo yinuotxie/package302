@@ -14,9 +14,12 @@
 #'   p_val: the numeric p-value.
 #'
 #' @examples
-#' my_t.test(1:10, mu = 5, alt = "greater")
+#' my_t_test(1:10, mu = 5, alt = "greater")
 #' test <- rnorm(10, mean = 1, sd = 0)
-#' my_t.test(test, 0, "two.sided")
+#' my_t_test(test, 0, "two.sided")
+#'
+#' @importFrom stats sd
+#' @importFrom stats pt
 #'
 #' @export
 my_t_test <- function(data, mu, alt) {

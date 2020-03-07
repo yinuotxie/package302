@@ -26,7 +26,6 @@ predict the class Species in iris data using covariates Sepal.Length,
 Sepal.Width, Petal.Length, and Petal.Width.
 }
 \examples{
-my_knn_cv(train, cl, knn = 1, k_cv = 5)
 # example that uses iris data
 my_knn_cv(iris[, -5], iris[, 5], 5, 5)
 

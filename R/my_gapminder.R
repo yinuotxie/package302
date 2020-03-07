@@ -19,10 +19,4 @@
 #' @examples
 #' str(my_gapminder)
 #' head(my_gapminder)
-#'
-#' # life expectance by continents in year 2007
-#' gapminder %>%
-#'   filter(year == 2007) %>%
-#'   group_by(continent) %>%
-#'   summarise(lifeExp = median(lifeExp))
 "my_gapminder"

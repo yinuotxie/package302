@@ -7,17 +7,19 @@ Authors@R:
            role = c("aut", "cre"),
            email = "yinuox@uw.edu")
 Description: This package is a project for Stat302 at UW. It incorporates four 
-    functions that help users to evaluate data and build its corresponding model 
+    functions that help users to evaluate data and build the corresponding model 
     through t-test, linear regression, k-nearest neighbors cross-validation, 
     and random forest tree cross-validation.
 License: GPL-3
 Depends: R (>= 2.10)
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.0.2
 Imports: magrittr,
   class,
   randomForest,
-  gapminder,
-  ggplot2,
-  knitr
+  dplyr,
+  stats,
+  tibble
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+
+

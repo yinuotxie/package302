@@ -8,8 +8,14 @@
 #' @return A table of summary with rows for each coefficient and columns for the
 #'   Estimate, Std. Error, t value, and Pr(>|t|).
 #'
-#' @example
+#' @examples
 #' my_lm(mpg ~ hp + wt, mtcars)
+#'
+#' @import magrittr
+#' @importFrom stats model.frame
+#' @importFrom stats model.matrix
+#' @importFrom stats model.response
+#' @importFrom stats pt
 #'
 #' @export
 my_lm <- function(formula, data) {
