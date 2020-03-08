@@ -22,6 +22,7 @@
 #'
 #' @export
 my_rf_cv <- function(k) {
+  data("my_gapminder", envir = environment())
   train <- my_gapminder %>% select(lifeExp, gdpPercap)
   # randomly assigns observations to folds 1,…,k with equal probability
   fold <- sample(rep(1:k, length = nrow(train)))

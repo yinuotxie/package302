@@ -1,0 +1,20 @@
+---
+title: "Project 3: package302 Tutorial"
+author: "Travis Xie"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{package302 Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(package302)
+```
