@@ -10,7 +10,7 @@ my_rf_cv(k)
 \item{k}{Number of folds.}
 }
 \value{
-A numeric with the cross-validation error
+A numeric with the cross-validation error.
 }
 \description{
 Predicts outputs Sepal.Length using covariates
