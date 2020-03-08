@@ -29,6 +29,10 @@
 #'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
+  # generates an error if k_nn or k_cv is not numeric
+  if(!is.numeric(k_nn) | !is.numeric(k_cv)) {
+    stop("k_nn and k_cv must be numeric")
+  }
   # length of input data
   n <- nrow(train)
 

@@ -22,6 +22,10 @@
 #'
 #' @export
 my_rf_cv <- function(k) {
+  # generates an error if the input k is not numeric
+  if (!is.numeric(k)) {
+    stop("K must be numeric")
+  }
   # randomly assigns observations to folds 1,…,k with equal probability
   train <- my_gapminder %>% select(lifeExp, gdpPercap)
   fold <- sample(rep(1:k, length = nrow(train)))

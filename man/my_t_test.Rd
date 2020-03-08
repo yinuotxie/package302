@@ -4,7 +4,7 @@
 \alias{my_t_test}
 \title{T-test}
 \usage{
-my_t_test(data, mu, alt)
+my_t_test(data, mu, alt = "two.sided")
 }
 \arguments{
 \item{data}{A numeric vector of data.}
@@ -12,7 +12,7 @@ my_t_test(data, mu, alt)
 \item{mu}{A number indicating the null hypothesis value of the mean.}
 
 \item{alt}{A character string specifying the alternative hypothesis, must be
-one of the "two.sided", "less", or "greater".}
+one of the "two.sided (default)", "less", or "greater".}
 }
 \value{
 A list with

@@ -5,7 +5,7 @@
 #' @param data A numeric vector of data.
 #' @param mu A number indicating the null hypothesis value of the mean.
 #' @param alt A character string specifying the alternative hypothesis, must be
-#'   one of the "two.sided", "less", or "greater".
+#'   one of the "two.sided (default)", "less", or "greater".
 #'
 #' @return A list with
 #'   test_stat: the numeric test statistic,
@@ -22,7 +22,7 @@
 #' @importFrom stats pt
 #'
 #' @export
-my_t_test <- function(data, mu, alt) {
+my_t_test <- function(data, mu, alt = "two.sided") {
   # generate errors if  input alt does not meet the requirments
   if (alt != "two.sided" & alt != "less" &  alt != "greater") {
     stop("alternative must be \"two.sided\", \"less\", or \"greater\"")
@@ -39,21 +39,28 @@ my_t_test <- function(data, mu, alt) {
   df <- length(data) - 1
 
   # create a default output list
-  output_list <- list("test_stat" = t,
+  # round t value to 5 decimals
+  output_list <- list("test_stat" = round(t, 5),
                       "df" = df,
                       "p_val" = 0,
                       "alternative_hypothesis" = alt)
 
   # cacluate the p-value by pt()
+  # round all the p_values to 4 decimals
   if (alt == "two.sided") {
-    output_list$p_val <- pt(t, df, lower.tail = TRUE) * 2
-    output_list$alternative_hypothesis <- "true difference in means is not 0"
+    p_val <- abs(pt(t, df, lower.tail = FALSE)) * 2
+    # if p_vale cannot greater than 1
+    if (p_val > 1) {
+      p_val <- 2 - p_val
+    }
+    output_list$p_val <- round(p_val, 4)
+    output_list$alternative_hypothesis <- "true mean is not equal to 0"
   } else if (alt == "less") {
-    output_list$p_val <- pt(t, df, lower.tail = TRUE)
-    output_list$alternative_hypothesis <- "true difference in means is less than 0"
+    output_list$p_val <- round(pt(t, df, lower.tail = TRUE), 4)
+    output_list$alternative_hypothesis <- "true mean is less than 0"
   } else {
-    output_list$p_val <- pt(t, df, lower.tail = FALSE)
-    output_list$alternative_hypothesis <- "true difference in means is greater than 0"
+    output_list$p_val <- round(pt(t, df, lower.tail = FALSE), 4)
+    output_list$alternative_hypothesis <- "true mean is greater than 0"
   }
   return(output_list)
 }
