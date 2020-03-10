@@ -8,13 +8,160 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+\addtolength{\headheight}{-.025\textheight} 
+\thispagestyle{fancyplain} 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
+### Note
+1. Remeber to change keywords
+2. check Typo
+3. Adjust axis text size
 
+## Ackowledgments 
+Thanks Bryan D. Matin for his amazing teaching in Stat302.
+
+## Introduction
+This package is the project3 for Stat302 in UW. It contains four functions: 
+<p>
+* my_t_test
+* my_lm
+* my_knn_cv
+* my_rf_cv
+</p>
+that effectively analyzes data and evaluates statistical models. It also incorporates a dataset my_gapminder taken from the famous gapminder dataset.
+You can install my package through Github in the following way:
+```{r install, eval=FALSE}
+devtools::install_github("yinuotxie/package302")
+```
+
+To begin, we need to load the following package and the example dataset.
 ```{r setup}
 library(package302)
+library(magrittr)
+library(ggplot2)
+data("my_gapminder")
 ```
+
+If you are unfamiliar with \testtt{my_gapminder}, you can check the description of the data using:
+```{r help}
+?my_gapminder
+```
+or, you can directly view the dataset:
+```{r view}
+my_gapminder
+```
+
+## Tutorials
+In the tutorial section, I will show you how each function works.
+
+### my_t_test
+Function, my_t_test, can be used to perform a one sample t-test. It will be very helpful when you want to know whether or not to reject the null hypothesis. I am going to demonstrate some simply t-tests here by using **lifeExp** from my_gapminder.
+
+Here, we want to test the null hypothesis in which the mean value of lifeExp is 60. 
+$$H_0: \mu = 60$$
+We also want to set the significant level to 0.05.
+$$\alpha = 0.05$$
+
+***
+
+First example -- two.tailed t-test
+$$H_a: \mu \neq 60$$
+```{r}
+my_t_test(data = my_gapminder$lifeExp, mu = 60, alt = "two.sided")
+```
+From the output, we can see the t-value, degree of freedom, p-value, and the alternative hypothesis. The p-value is greater than the significant level of 0.05, so we don't reject the null hypothesis.
+
+***
+
+Second example -- one.tailed t-test (less)
+$$H_a: \mu < 60$$
+```{r}
+my_t_test(data = my_gapminder$lifeExp, mu = 60, alt = "less")
+```
+Now, the p-value is less than the significant level of 0.05. Thus, we reject the null hypothesis and accepts the alternative hypothesis. 
+
+***
+
+Third example -- one.tailed t-test (greater)
+```{r}
+my_t_test(data = my_gapminder$lifeExp, mu = 60, alt = "greater")
+```
+We don't reject the null hypothesis because p-value is greater than the significant level of 0.05
+
+### my_lm
+my_lm is a very useful function when it comes to linear regression. Here, I will demonstrate a regression using **lifeExp** as your response variable and **gdpPercap** and **continent** as explanatory variables.
+
+Note: The estimate columns displays the coefficents.
+```{r message=FALSE, warning=FALSE}
+my_model <- my_lm(lifeExp ~ gdpPercap + continent, data = my_gapminder)
+my_model
+```
+Interpretation of coefficient for gdpPercap: we notice that coefficient for gdpPercap (0.00045) has postive value. Thus, we can interpret it as that the lifeExp increases 0.00045 as gpdPercap increases one unit.
+
+***
+
+We can use one sample t-test to test whether or not to accept this coefficients.
+We first need to set a $H_0$ and a $H_a$.
+$$H_0: \mu = 0.00045$$
+$$H_0: \mu \neq 0.00045$$
+Then, we will test it using the significant level of 0.05.
+$$ \alpha = 0.05$$
+We need to pull out of model x: explanatory variable and y: response varible.
+```{r}
+object <- lifeExp ~ gdpPercap + continent
+model <- model.frame(object, my_gapminder)
+# extract all independent variable x
+x <- model.matrix(object, my_gapminder)
+# extract all dependent variable y
+y <- as.matrix(model.response(model))
+```
+Then we need to calcuate how much lifeExp increases as gdpPercap changes for one unit.
+```{r}
+# number of observations
+n <- nrow(x)
+coef <- rep(NA, n - 1)
+for (i in 1:n-1) {
+  # change in y / change in x
+  # second column in x is gdpPercap
+  coef[i] <- (y[i + 1, 1] - y[i, 1]) / (x[i + 1, 2] - x[i, 2])
+}
+```
+Now we can do the t-test using our own function my_t_test
+```{r}
+my_t_test(coef, mu = 0.00045, "two.sided")
+```
+We can see that the p-value is way greater than the significant value, so we don't reject the null hypothesis. 
+
+***
+
+We can also visuliaze the actual value and the fitted value. 
+```{r fig.align="center", fig.width=7, fig.height=5}
+# fitted value
+# y_hat = x * Beta + se
+my_lifeExp <- x %*% my_model$Estimate + my_model$Std.Error
+my_df <- data.frame("actual" = my_gapminder$lifeExp, "fitted" = my_lifeExp,
+                    "color" = my_gapminder$continent) 
+my_df %>%
+  ggplot(aes(x = fitted, y = actual, color = color)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  coord_flip() +    
+  labs(title = "Actual vs. Fitted Values", x = "Fitted Values", y = "Actual Values",
+       color = "Continent") +
+  theme_classic(base_size = 18) +
+  theme(plot.title = element_text(hjust = 0.5),
+        panel.background = element_rect(fill = "floralwhite"),
+        legend.title = element_text(hjust = 0.5),
+        legend.position = c(.3, 1),
+        legend.justification = c("right", "top"),
+        legend.box.just = "right",
+        legend.margin = margin(6, 6, 6, 6),
+        legend.box.background = element_rect(colour = "cyan"))
+```
+<br>
+By coloring the continents, we can see that the fitted values have really good linear relationships with the actual values in Europe and Oceania, but not in other continents. Our linear model works only in certain continents. In order to make it work in any continent, we may need to apply other regressions to build the model. 
