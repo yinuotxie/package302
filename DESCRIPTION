@@ -17,7 +17,8 @@ Imports: magrittr,
   randomForest,
   dplyr,
   stats,
-  tibble
+  tibble,
+  ggplot2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
