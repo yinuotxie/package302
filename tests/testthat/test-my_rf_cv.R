@@ -6,9 +6,9 @@ train <- iris[, -5]
 cl <- iris[, 5]
 test_that("my_rf_cv works", {
   # cv_err vector that stores cv_err for 100 trials
-  cv_err <- rep(NA, 100)
+  cv_err <- rep(NA, 10)
   # mean mse for 100 trials
-  for (i in 1:100) {
+  for (i in 1:10) {
     cv_err[i] <- my_rf_cv(5)
   }
   mean <- mean(cv_err)

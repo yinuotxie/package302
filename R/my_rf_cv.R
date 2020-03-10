@@ -21,6 +21,9 @@
 #' my_rf_cv(5)
 #'
 #' @export
+gdpPercap <- NULL
+lifeExp <- NULL
+data("my_gapminder")
 my_rf_cv <- function(k) {
   # generates an error if the input k is not numeric
   if (!is.numeric(k)) {
