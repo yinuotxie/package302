@@ -18,3 +18,9 @@ test_that("non numeric input for k_nn and k_cv throws error", {
   expect_error(my_knn_cv(train, cl, 1, "b"))
   expect_error(my_knn_cv(train, cl, "a", 1))
 })
+
+test_that("my output is a list", {
+  expect_is(my_knn_cv(train, cl, 1, 5), "list")
+})
+
+

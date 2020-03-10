@@ -26,5 +26,6 @@ The famous \code{link[gapminder]{gapminder}} dataset taken from the
 \examples{
 str(my_gapminder)
 head(my_gapminder)
+data(my_gapminder)
 }
 \keyword{datasets}

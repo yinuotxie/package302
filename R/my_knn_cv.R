@@ -6,13 +6,14 @@
 #'
 #'
 #' @param train Input data frame.
-#' @param cl True class value of the input training data \code{train}.
+#' @param cl A data frame that contains the true class value of the
+#'   input training data \code{train}.
 #' @param k_nn Integer representing the number of neighbors.
 #' @param k_cv Integer representing the number of folds.
 #' @keywords cross-validation
 #'
 #' @return A list with objects class that contains a vector of the predicted
-#'   class for all observations and cv_er a numeric with the
+#'   class for all observations and a numeric with the
 #'   cross-validation misclassification error.
 #'
 #' @import class

@@ -12,7 +12,7 @@ my_lm(formula, data)
 \item{data}{A set of data}
 }
 \value{
-A table of summary with rows for each coefficient and columns for the
+A dataframe of summary with rows for each coefficient and columns for the
   Estimate, Std. Error, t value, and Pr(>|t|).
 }
 \description{

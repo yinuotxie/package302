@@ -19,4 +19,5 @@
 #' @examples
 #' str(my_gapminder)
 #' head(my_gapminder)
+#' data(my_gapminder)
 "my_gapminder"

@@ -5,7 +5,7 @@
 #' @param formula A class object
 #' @param data A set of data
 #'
-#' @return A table of summary with rows for each coefficient and columns for the
+#' @return A dataframe of summary with rows for each coefficient and columns for the
 #'   Estimate, Std. Error, t value, and Pr(>|t|).
 #'
 #' @examples
@@ -60,7 +60,7 @@ my_lm <- function(formula, data) {
   result <- cbind(coef, se, t_value, pr)
   colnames(result) <- c("Estimate", "Std. Error", "t value", "Pr(> |t|)")
 
-  # convert the result to a table
+  # convert the result to a data frame in order to display as a table
   result <- data.frame(result)
   return(result)
 }

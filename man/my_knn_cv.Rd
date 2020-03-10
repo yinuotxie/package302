@@ -9,7 +9,8 @@ my_knn_cv(train, cl, k_nn, k_cv)
 \arguments{
 \item{train}{Input data frame.}
 
-\item{cl}{True class value of the input training data \code{train}.}
+\item{cl}{A data frame that contains the true class value of the
+input training data \code{train}.}
 
 \item{k_nn}{Integer representing the number of neighbors.}
 
@@ -17,7 +18,7 @@ my_knn_cv(train, cl, k_nn, k_cv)
 }
 \value{
 A list with objects class that contains a vector of the predicted
-  class for all observations and cv_er a numeric with the
+  class for all observations and a numeric with the
   cross-validation misclassification error.
 }
 \description{

@@ -30,3 +30,7 @@ test_that("my_t_test works for greater", {
 test_that("my_t_test throws an error when input requirements aren't meet", {
   expect_error(my_t_test(test, 0, "a"))
 })
+
+test_that("the output is a list", {
+  expect_is(my_t_test(test, 0, "two.sided"), "list")
+})
