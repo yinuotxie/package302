@@ -1,6 +1,6 @@
 #' Gapminder Data
 #'
-#' The famous \code{link[gapminder]{gapminder}} dataset taken from the
+#' The famous \code{\link[gapminder]{gapminder}} dataset taken from the
 #' \code{gapminder} to perform tutorials of the package.
 #'
 #' @format a data frame with 1704 rows and 6 variables

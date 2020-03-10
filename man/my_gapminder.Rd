@@ -20,7 +20,7 @@ http://www.gapminder.org/data/.
 my_gapminder
 }
 \description{
-The famous \code{link[gapminder]{gapminder}} dataset taken from the
+The famous \code{\link[gapminder]{gapminder}} dataset taken from the
 \code{gapminder} to perform tutorials of the package.
 }
 \examples{

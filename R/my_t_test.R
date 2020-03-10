@@ -54,13 +54,13 @@ my_t_test <- function(data, mu, alt = "two.sided") {
       p_val <- 2 - p_val
     }
     output_list$p_val <- round(p_val, 4)
-    output_list$alternative_hypothesis <- "true mean is not equal to 0"
+    output_list$alternative_hypothesis <- paste0("true mean is not equal to ", mu)
   } else if (alt == "less") {
     output_list$p_val <- round(pt(t, df, lower.tail = TRUE), 4)
-    output_list$alternative_hypothesis <- "true mean is less than 0"
+    output_list$alternative_hypothesis <- paste0("true mean is less than ", mu)
   } else {
     output_list$p_val <- round(pt(t, df, lower.tail = FALSE), 4)
-    output_list$alternative_hypothesis <- "true mean is greater than 0"
+    output_list$alternative_hypothesis <- paste0("true mean is greater than ", mu)
   }
   return(output_list)
 }

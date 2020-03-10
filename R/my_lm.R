@@ -29,7 +29,6 @@ my_lm <- function(formula, data) {
 
   # get the coefficient
   coef <- solve(t(x) %*% x) %*% t(x) %*% y
-  # coef <- round(coef, 5)
 
   # get the degree of freedom
   # df = n - # of parameter - 1
@@ -46,9 +45,8 @@ my_lm <- function(formula, data) {
 
   # get the t-value
   t_value <- ((coef - 0) / se) %>% round(5)
-  #t_value <- round(t_value, 3)
 
-  # get Pr(> |t|)
+  # get Pr(>|t|)
   pr <- pt(abs(t_value), df, lower.tail = FALSE) * 2
 
   # round coef, se, t_value to 5 decimals to display
@@ -58,7 +56,7 @@ my_lm <- function(formula, data) {
 
   # combine all the information to one single matrix
   result <- cbind(coef, se, t_value, pr)
-  colnames(result) <- c("Estimate", "Std. Error", "t value", "Pr(> |t|)")
+  colnames(result) <- c("Estimate", "Std.Error", "t.value", "Pr(>|t|)")
 
   # convert the result to a data frame in order to display as a table
   result <- data.frame(result)
