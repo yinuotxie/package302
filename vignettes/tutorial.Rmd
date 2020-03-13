@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+
 ### Note
 1. Remeber to change keywords
 2. check Typo
@@ -44,10 +46,12 @@ To begin, we need to load the following package and the example dataset.
 library(package302)
 library(magrittr)
 library(ggplot2)
+library(dplyr)
+library(kableExtra)
 data("my_gapminder")
 ```
 
-If you are unfamiliar with \testtt{my_gapminder}, you can check the description of the data using:
+If you are unfamiliar with my_gapminder, you can check the description of the data using:
 ```{r help}
 ?my_gapminder
 ```
@@ -104,41 +108,25 @@ my_model
 Interpretation of coefficient for gdpPercap: we notice that coefficient for gdpPercap (0.00045) has postive value. Thus, we can interpret it as that the lifeExp increases 0.00045 as gpdPercap increases one unit.
 
 ***
-
-We can use one sample t-test to test whether or not to accept this coefficients.
+We can also have a hythothesis test on gdpPercap coefficient. 
 We first need to set a $H_0$ and a $H_a$.
-$$H_0: \mu = 0.00045$$
-$$H_0: \mu \neq 0.00045$$
+$$H_0: coef = 0$$
+$$H_0: coef \neq 0$$
 Then, we will test it using the significant level of 0.05.
 $$ \alpha = 0.05$$
-We need to pull out of model x: explanatory variable and y: response varible.
+We already know the p-value from the table above. <br>
+We can see that the p-value is much smaller than the significant value, so we can reject the null hypothesis and accect the alternative one. 
+
+***
+Next, we want to how well our model can do in prediction. We need to pull out some models out first: x -- explanatory variable and y -- response varible.
 ```{r}
 object <- lifeExp ~ gdpPercap + continent
 model <- model.frame(object, my_gapminder)
-# extract all independent variable x
+# extract x 
 x <- model.matrix(object, my_gapminder)
-# extract all dependent variable y
-y <- as.matrix(model.response(model))
+# extract y
+y <- model.response(model) %>% as.matrix()
 ```
-Then we need to calcuate how much lifeExp increases as gdpPercap changes for one unit.
-```{r}
-# number of observations
-n <- nrow(x)
-coef <- rep(NA, n - 1)
-for (i in 1:n-1) {
-  # change in y / change in x
-  # second column in x is gdpPercap
-  coef[i] <- (y[i + 1, 1] - y[i, 1]) / (x[i + 1, 2] - x[i, 2])
-}
-```
-Now we can do the t-test using our own function my_t_test
-```{r}
-my_t_test(coef, mu = 0.00045, "two.sided")
-```
-We can see that the p-value is way greater than the significant value, so we don't reject the null hypothesis. 
-
-***
-
 We can also visuliaze the actual value and the fitted value. 
 ```{r fig.align="center", fig.width=7, fig.height=5}
 # fitted value
@@ -164,4 +152,76 @@ my_df %>%
         legend.box.background = element_rect(colour = "cyan"))
 ```
 <br>
-By coloring the continents, we can see that the fitted values have really good linear relationships with the actual values in Europe and Oceania, but not in other continents. Our linear model works only in certain continents. In order to make it work in any continent, we may need to apply other regressions to build the model. 
+By coloring the continents, we can see that the fitted values have really good linear relationships with the actual values in Europe and Oceania, but not in other continents. Therefore, our linear model works only in certain continents. In order to make the model more accurate, we may need to apply other regressions methods, such as polynomial. 
+
+### my_knn_cv 
+my_knn_cv is a very useful in prediction using k nearest neighbor methods. It also train and evaluate the model by cross-validation. Here, I will show you how to predict output class continent using covariates gdpPercap and lifeExp from my_gapminder data.
+We first need to pull our train and cl data out. 
+```{r}
+train <- my_gapminder %>% select(gdpPercap, lifeExp)
+cl <- my_gapminder$continent
+```
+<br>
+Before doing the predictions, we have to know how cross-validations work. Cross-validatoin will split the data into **k** different folds. Then **k-1** folds will be used to train the model and the fold left will be used to test the model.
+So, cross-validation is very useful to evaluate our model. Once we have the model with a reasonable estimate of our out-of-sample test-error, we can use the full data to train our final predictive model. 
+<br>
+Now, we are going to do the predictions ten times with k_cv = 5 and different k_nn (number of neighbors) values each time. 
+```{r}
+result <- matrix(NA, nrow = 10, ncol = 2)
+rownames(result) <- c(1:10)
+for (i in 1:10) {
+  output <- my_knn_cv(train = train, cl = cl, k_nn = i, k_cv = 5)
+  # cv misclassfication rate
+  result[i, 1] <- output$cv_error
+  # training misclassification rate
+  result[i, 2] <- (sum(output$class != cl) / length(cl)) %>% round(4)
+}
+result <- data.frame("Number of neighbors" = c(1:10), 
+                     "cv misclassification rate" = result[, 1],
+                     "training misclassification rate" = result[, 2])
+kable_styling(kable(result))
+```
+The table can tell us a lot of information. According to the table, if we decide to choose the model based on the training misclassification rate, we will choose the model with the smallest rate, which is k_nn = 1. However, if we choose the model based on cv misclassification, we will choose k_nn = 10. In practice, I will probably choose the model with 5 or 6 neighbors because in those cases, both the cv and the training misclassification rate are in the acceptable range. However, our model is not very accurate because it has about 50 percent failures no matter how many folds and neighbors we choose. 
+
+### my_rf_cv 
+my_rf_cv is a powerful tool to predict data by using random forest methods and cross-validation. Here, we are using this function to predict lifeExp in each country from the covariate gdpPercap. 
+We will do the demonstration by setting our k equal to 2, 5, and 10. For each k, we will run the functions 30 times.
+```{r}
+#Iterate through k in c(2, 5, 10):
+#For each value of k, run your function 30 times.
+#For each of the 30 iterations, store the CV estimated MSE.
+cv_error <- matrix(NA, nrow = 90, ncol = 2)
+cv_error[, 1] <- rep(c(2, 5, 10), each = 30)
+# rows begin at 1
+row <- 1
+for(k in c(2, 5, 10)) {
+  for(i in 1:30) {
+    cv_error[row, 2] <- my_rf_cv(k)
+    row <- row + 1
+  }
+}
+
+```
+
+To better visualize the estimated MSE, we can plot the data in boxplot.
+```{r fig.align="center", fig.height=7, fig.width=7}
+my_df <- data.frame("k" = cv_error[, 1], "mse" = cv_error[, 2])
+my_df %>% 
+  ggplot(aes(x = factor(k), y = mse, fill = factor(k))) +
+  geom_boxplot() +
+  labs(title = "MSE for K folds", x = "Number of Folds", y = "MSE", 
+       fill = "Number of Folds") +
+  theme_classic(base_size = 18) +
+  theme(plot.title = element_text(hjust = 0.5),
+        panel.background = element_rect(fill = "floralwhite"),
+        legend.title = element_text(hjust = 0.5, size = 15),
+        legend.margin = margin(6, 6, 6, 6))
+```
+We can also caculate the mean and standard deviation of mse for each k. We will display the results in a table.
+```{r}
+mse_sum <- my_df %>% 
+  group_by(k) %>%
+  summarise(mean = mean(mse), sd = sd(mse))
+kable_styling(kable(mse_sum))
+```
+From the boxplots, we can see that the range of MSE decreases and the median increases as k increases. We can also observe the same trends in the table -- mean increases and standard deviation decreases as k increases. It occurs because as the number of folds icrease, we are able to train the model with more data and evaluate it more times. More data as training data can increase the accurage of prediction and more evaluations can decrease the variation of MSE. 
