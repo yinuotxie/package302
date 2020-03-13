@@ -4,8 +4,7 @@ gdpPercap <- NULL
 lifeExp <- NULL
 #' Random Forest Cross-Validation
 #'
-#' Predicts outputs Sepal.Length using covariates
-#' Sepal.Width, Petal.Length, and Petal.Width by random forest methods.
+#' Predicts outputs lifeExp using covariates gdpPercap by random forest methods.
 #'
 #' @param k Number of folds.
 #' @keywords cross-validation
@@ -45,7 +44,7 @@ my_rf_cv <- function(k) {
     # get the test data
     data_test <- my_data %>% filter(fold == i) %>% select(-fold)
     # get the model
-    model <- randomForest(lifeExp ~ gdpPercap, data = data_train, ntree = 100)
+    model <- randomForest(lifeExp ~ gdpPercap, data = data_train, ntree = 50)
     # predict the life expentance of test data
     # the second column is gdpPercap
     pred <- predict(model, data_test[, 2])

@@ -68,7 +68,7 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     cv_error[i] <- (sum(as.vector(prediction) != cl_test)) / nrow(cl_test)
   }
 
-  # predict the full data by using it as both training and test data
+  # training the model with the full data
   output$class <- knn(train = train, test = train, cl = cl$class, k = k_nn)
   # average misclassification rate
   # round the number to 4 decimals

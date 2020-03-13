@@ -13,8 +13,7 @@ my_rf_cv(k)
 A numeric with the cross-validation error.
 }
 \description{
-Predicts outputs Sepal.Length using covariates
-Sepal.Width, Petal.Length, and Petal.Width by random forest methods.
+Predicts outputs lifeExp using covariates gdpPercap by random forest methods.
 }
 \examples{
 my_rf_cv(5)
