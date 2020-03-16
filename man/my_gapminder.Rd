@@ -4,7 +4,7 @@
 \name{my_gapminder}
 \alias{my_gapminder}
 \title{Gapminder Data}
-\format{a data frame with 1704 rows and 6 variables
+\format{a data frame with 1704 rows and 6 variables.
 \describe{
 \item{country}{factor with 142 levels}
 \item{continent}{factor with 5 levels}

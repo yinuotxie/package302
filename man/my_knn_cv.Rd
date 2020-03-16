@@ -17,18 +17,21 @@ input training data \code{train}.}
 \item{k_cv}{Integer representing the number of folds.}
 }
 \value{
-A list with objects class that contains a vector of the predicted
-  class for all observations and a numeric with the
-  cross-validation misclassification error.
+A list containing the following objects:
+\itemize{
+  \item class: objects class that contains a vector of the predicted
+               class for all observations.
+  \item cv_error: a numeric represents cross-validation misclassification error.
+}
 }
 \description{
-It uses k-nearest neigbors method topredict the output. For example, it can
-predict the class Species in iris data using covariates Sepal.Length,
+It uses the k-nearest-neighbors method to predict the output. For example, it
+can predict the class Species in iris data using covariates Sepal.Length,
 Sepal.Width, Petal.Length, and Petal.Width.
 }
 \examples{
-# example that uses iris data
+# an example that uses iris data
 my_knn_cv(iris[, -5], iris[, 5], 5, 5)
 
 }
-\keyword{cross-validation}
+\keyword{prediction}

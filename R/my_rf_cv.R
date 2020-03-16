@@ -1,3 +1,4 @@
+# load the global variable
 data("my_gapminder", envir = environment())
 my_gapminder <- my_gapminder
 gdpPercap <- NULL
@@ -6,8 +7,8 @@ lifeExp <- NULL
 #'
 #' Predicts outputs lifeExp using covariates gdpPercap by random forest methods.
 #'
-#' @param k Number of folds.
-#' @keywords cross-validation
+#' @param k Integer representing Number of folds.
+#' @keywords prediction
 #'
 #' @return A numeric with the cross-validation error.
 #'

@@ -4,6 +4,7 @@
 #'
 #' @param formula A class object
 #' @param data A set of data
+#' @keywords prediction
 #'
 #' @return A dataframe of summary with rows for each coefficient and columns for the
 #'   Estimate, Std. Error, t value, and Pr(>|t|).

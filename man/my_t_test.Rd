@@ -15,18 +15,23 @@ my_t_test(data, mu, alt = "two.sided")
 one of the "two.sided (default)", "less", or "greater".}
 }
 \value{
-A list with
-  test_stat: the numeric test statistic,
-  df: the degrees of freedom,
-  alternative: the value of the parameter alternative,
-  p_val: the numeric p-value.
+A list containing the following components:
+\itemize{
+  \item test_stat: the numeric test statistic;
+  \item df: the degrees of freedom;
+  \item alternative: the value of the parameter alternative;
+  \item p_val: the numeric p-value.
+}
 }
 \description{
 Performs a one sample t-test on vectors of data.
 }
 \examples{
 my_t_test(1:10, mu = 5, alt = "greater")
+
+# my_t_test on a normal distribution data
 test <- rnorm(10, mean = 1, sd = 0)
 my_t_test(test, 0, "two.sided")
 
 }
+\keyword{inference}

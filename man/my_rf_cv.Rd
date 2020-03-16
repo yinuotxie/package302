@@ -7,7 +7,7 @@
 my_rf_cv(k)
 }
 \arguments{
-\item{k}{Number of folds.}
+\item{k}{Integer representing Number of folds.}
 }
 \value{
 A numeric with the cross-validation error.
@@ -19,4 +19,4 @@ Predicts outputs lifeExp using covariates gdpPercap by random forest methods.
 my_rf_cv(5)
 
 }
-\keyword{cross-validation}
+\keyword{prediction}

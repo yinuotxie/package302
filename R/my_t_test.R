@@ -6,15 +6,20 @@
 #' @param mu A number indicating the null hypothesis value of the mean.
 #' @param alt A character string specifying the alternative hypothesis, must be
 #'   one of the "two.sided (default)", "less", or "greater".
+#' @keywords inference
 #'
-#' @return A list with
-#'   test_stat: the numeric test statistic,
-#'   df: the degrees of freedom,
-#'   alternative: the value of the parameter alternative,
-#'   p_val: the numeric p-value.
+#' @return A list containing the following components:
+#' \itemize{
+#'   \item test_stat: the numeric test statistic;
+#'   \item df: the degrees of freedom;
+#'   \item alternative: the value of the parameter alternative;
+#'   \item p_val: the numeric p-value.
+#' }
 #'
 #' @examples
 #' my_t_test(1:10, mu = 5, alt = "greater")
+#'
+#' # my_t_test on a normal distribution data
 #' test <- rnorm(10, mean = 1, sd = 0)
 #' my_t_test(test, 0, "two.sided")
 #'
@@ -23,6 +28,7 @@
 #'
 #' @export
 my_t_test <- function(data, mu, alt = "two.sided") {
+
   # generate errors if  input alt does not meet the requirments
   if (alt != "two.sided" & alt != "less" &  alt != "greater") {
     stop("alternative must be \"two.sided\", \"less\", or \"greater\"")

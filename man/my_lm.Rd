@@ -22,3 +22,4 @@ my_lm is used to fit linear models.
 my_lm(mpg ~ hp + wt, mtcars)
 
 }
+\keyword{prediction}

@@ -3,7 +3,7 @@
 #' The famous \code{\link[gapminder]{gapminder}} dataset taken from the
 #' \code{gapminder} to perform tutorials of the package.
 #'
-#' @format a data frame with 1704 rows and 6 variables
+#' @format a data frame with 1704 rows and 6 variables.
 #' \describe{
 #' \item{country}{factor with 142 levels}
 #' \item{continent}{factor with 5 levels}
