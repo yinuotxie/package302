@@ -51,7 +51,7 @@ my_t_test <- function(data, mu, alt = "two.sided") {
                       "p_val" = 0,
                       "alternative_hypothesis" = alt)
 
-  # cacluate the p-value by pt()
+  # caculate the p-value by pt()
   # round all the p_values to 4 decimals
   if (alt == "two.sided") {
     p_val <- abs(pt(t, df, lower.tail = FALSE)) * 2
